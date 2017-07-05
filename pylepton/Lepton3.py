@@ -23,7 +23,7 @@ SPI_IOC_WR_BITS_PER_WORD = _IOW(SPI_IOC_MAGIC, 3, "=B")
 
 SPI_IOC_RD_MAX_SPEED_HZ  = _IOR(SPI_IOC_MAGIC, 4, "=I")
 SPI_IOC_WR_MAX_SPEED_HZ  = _IOW(SPI_IOC_MAGIC, 4, "=I")
- 
+
 
 class Lepton3(Lepton):
   def __init__(self, spi_dev = "/dev/spidev0.0"):
@@ -48,7 +48,13 @@ class Lepton3(Lepton):
     if data_buffer is None:
       data_buffer = np.ndarray((Lepton.ROWS * 2, Lepton.COLS * 2), dtype=np.uint16)
     elif data_buffer.ndim < 2 or data_buffer.shape[0] < Lepton.ROWS * 2 or data_buffer.shape[1] < Lepton.COLS * 2 or data_buffer.itemsize < 2:
-      raise Exception("Provided input array not large enough")
+      raise Exception("""Provided input array not large enough \n
+                         {}, {} \n
+                         {}, {} \n
+                         {}, {} \n""".format(data_buffer.ndim, 2,
+                                             data_buffer.shape[0], Lepton.ROWS * 2,
+                                             data_buffer.shape[1], Lepton.COLS * 2,
+                                             data_buffer.itemsize, 2))
 
     start = time.time()
 
@@ -91,4 +97,3 @@ class Lepton3(Lepton):
 
     # TODO: turn on telemetry to get real frame id, sum on this array is fast enough though (< 500us)
     return data_buffer, data_buffer.sum()
-  
