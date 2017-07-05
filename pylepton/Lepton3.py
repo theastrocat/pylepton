@@ -51,6 +51,7 @@ class Lepton3(Lepton):
       raise Exception("""Provided input array not large enough \n
                          {}, {} \n
                          {}, {} \n
+                         {}, {} \n
                          {}, {} \n""".format(data_buffer.ndim, 2,
                                              data_buffer.shape[0], Lepton.ROWS * 2,
                                              data_buffer.shape[1], Lepton.COLS * 2,
